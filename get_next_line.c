@@ -6,7 +6,7 @@
 /*   By: rodantec <rodantec@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:41:27 by rodantec          #+#    #+#             */
-/*   Updated: 2024/11/15 14:30:12 by rodantec         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:41:12 by rodantec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ char *ft_extract(char **stash)
 	if ((*stash)[i] == '\n')
 		line[i++] = '\n';
 	line[i] = '\0';
-    if ((*stash)[i] == '\n') 
-        i++;
 	new_stash = ft_strdup(*stash + i );
    
     *stash = new_stash;
