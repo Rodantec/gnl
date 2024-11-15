@@ -6,30 +6,56 @@
 /*   By: rodantec <rodantec@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:41:27 by rodantec          #+#    #+#             */
-/*   Updated: 2024/11/07 13:23:33 by rodantec         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:30:12 by rodantec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+char *ft_extract(char **stash)
+{
+	int		i;
+	char	*line;
+	char *new_stash;
+	
+	i = 0;
+	while ((*stash)[i] && (*stash)[i] != '\n')
+		i++;
+	line = malloc(sizeof(char) * (i + 1 + ((*stash)[i] == '\n')));
+	if (!line)
+		return (NULL);
+	i = 0;
+	while ((*stash)[i] && (*stash)[i] != '\n')
+	{
+		line[i] = (*stash)[i];
+		i++;
+	}
+	if ((*stash)[i] == '\n')
+		line[i++] = '\n';
+	line[i] = '\0';
+    if ((*stash)[i] == '\n') 
+        i++;
+	new_stash = ft_strdup(*stash + i );
+   
+    *stash = new_stash;
+	return (line);
+}
 
 char	*get_next_line(int fd)
 {
+    static char	*stash;
+    char *line;
+    char *tmp;
+    
     if (fd < 0)
 		return (NULL);
-    char *buffer;
-	static char	*stash;
-    char *line ;
-    int bytes_read;
-    int i;
-
-    i = 0;
-    bytes_read = 0;
-	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
-    if (!stash)
-        return (NULL);
-    bytes_read = read(fd,buffer,BUFFER_SIZE); // a voir comment remplir le stash
-    stash = ft_isnewline(buffer);
-    return (stash);
+    if(!stash)
+        stash = ft_isnewline(fd);
+         
+    else
+        stash = ft_strjoin(stash,ft_isnewline(fd));
+    line = ft_extract(&stash);
+    return (line);
+  
 }
 
 
@@ -42,12 +68,28 @@ int main(void)
         return 1;
     }
 
-    char *line;
-    while ((line = get_next_line(fd)) != NULL)
-    {
-        printf("Line: %s", line);
-        free(line);  // N'oubliez pas de libérer la mémoire allouée pour la ligne
-    }
+    char *line = get_next_line(fd);
+    char *line2 = get_next_line(fd);
+     char *line3 = get_next_line(fd);
+     char *line4 = get_next_line(fd);
+    // char *line5 = get_next_line(fd);
+    // char *line6 = get_next_line(fd);
+    //  char *line7 = get_next_line(fd);
+    //   char *line8 = get_next_line(fd);
+    //    char *line9 = get_next_line(fd);
+    //     char *line10 = get_next_line(fd);
+        printf( "%s", line);
+       printf("%s", line2);
+         printf("%s", line3);
+        printf("%s", line4);
+        // printf( // "%s", line5);
+        // printf("%s", line6);
+        // printf("%s", line7);
+        // printf("%s", line8);
+        // printf("%s", line9);
+        // printf("%s", line10);
+       
+         // N'oubliez pas de libérer la mémoire allouée pour la ligne
     close(fd);
     return 0;
 }
