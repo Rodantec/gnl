@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodantec <rodantec@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ro <ro@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:41:27 by rodantec          #+#    #+#             */
-/*   Updated: 2024/11/15 14:41:12 by rodantec         ###   ########.fr       */
+/*   Updated: 2024/11/17 17:17:55 by ro               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char *ft_extract(char **stash)
 		line[i++] = '\n';
 	line[i] = '\0';
 	new_stash = ft_strdup(*stash + i );
-   
+    free(*stash);
     *stash = new_stash;
 	return (line);
 }
@@ -50,7 +50,11 @@ char	*get_next_line(int fd)
         stash = ft_isnewline(fd);
          
     else
-        stash = ft_strjoin(stash,ft_isnewline(fd));
+    {
+        tmp = ft_strjoin(stash,ft_isnewline(fd));
+        free(stash);
+        stash = tmp;
+    }
     line = ft_extract(&stash);
     return (line);
   
