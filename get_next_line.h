@@ -6,7 +6,7 @@
 /*   By: rodantec <rodantec@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:42:08 by rodantec          #+#    #+#             */
-/*   Updated: 2024/11/15 14:41:28 by rodantec         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:10:19 by rodantec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define BUFFER_SIZE 1
+//#define BUFFER_SIZE 1
 
 
 char *ft_extract(char **stash);
