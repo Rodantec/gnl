@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodantec <rodantec@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ro <ro@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:41:38 by rodantec          #+#    #+#             */
-/*   Updated: 2024/11/19 12:48:45 by rodantec         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:51:53 by ro               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,23 @@ char *ft_isnewline(int fd)
 	char *new_line;
 	
 	line = ft_strdup("");
+	if(!line)
+		return NULL;
 	while ((bytes_read = read(fd,buffer,BUFFER_SIZE)) > 0)
     {
 		buffer[bytes_read] = '\0';
 		new_line = ft_strjoin(line, buffer);
 		free(line);
+		if(!new_line)
+			return NULL;
 		line = new_line;
 		if(ft_strchr(buffer, '\n'))
 			break;
+	}
+	if (bytes_read < 0)
+	{
+		free(line);
+		return NULL;
 	}
 	return(line);
 }
