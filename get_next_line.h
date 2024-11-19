@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ro <ro@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: rodantec <rodantec@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:42:08 by rodantec          #+#    #+#             */
-/*   Updated: 2024/11/18 19:39:45 by ro               ###   ########.fr       */
+/*   Updated: 2024/11/19 12:57:05 by rodantec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define BUFFER_SIZE 1
+ //#define BUFFER_SIZE 1
 
 
 char *ft_extract(char **stash);

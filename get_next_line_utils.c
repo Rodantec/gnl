@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ro <ro@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: rodantec <rodantec@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:41:38 by rodantec          #+#    #+#             */
-/*   Updated: 2024/11/18 18:04:48 by ro               ###   ########.fr       */
+/*   Updated: 2024/11/19 12:48:45 by rodantec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ char	*ft_strdup(const char *s1)
 	char	*dest;
 	int		i;
 	int		j;
-
+	if(!s1)
+		return NULL;
 	j = ft_strlen(s1);
 	i = 0;
 	dest = malloc(sizeof(*s1) * (j + 1));
@@ -79,14 +80,14 @@ char	*ft_strdup(const char *s1)
 		dest[i] = s1[i];
 		i++;
 	}
-	dest[i] = 0;
+	dest[i] = '\0';
 	return (dest);
 }
 
 char *ft_isnewline(int fd)
 {
 	int bytes_read;
-	char buffer[BUFFER_SIZE];
+	char buffer[BUFFER_SIZE + 1];
 	char *line;
 	char *new_line;
 	
@@ -100,6 +101,6 @@ char *ft_isnewline(int fd)
 		if(ft_strchr(buffer, '\n'))
 			break;
 	}
-		return(line);
+	return(line);
 }
         
