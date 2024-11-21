@@ -6,38 +6,38 @@
 /*   By: rodantec <rodantec@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:41:27 by rodantec          #+#    #+#             */
-/*   Updated: 2024/11/21 10:26:24 by rodantec         ###   ########.fr       */
+/*   Updated: 2024/11/21 11:25:00 by rodantec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*gnl(int fd)
+char	*ft_isnewline(int fd)
 {
-	static char	*stash;
-	char		*line;
-	char		*tmp;
+	int		bytes_read;
+	char	buffer[BUFFER_SIZE + 1];
+	char	*line;
+	char	*new_line;
 
-	if (!stash)
-		stash = ft_strdup("");
-	tmp = ft_isnewline(fd);
-	if (!tmp)
+	bytes_read = read(fd, buffer, BUFFER_SIZE);
+	line = ft_strdup("");
+	while (bytes_read > 0)
 	{
-		free(stash);
-		stash = NULL;
+		buffer[bytes_read] = '\0';
+		new_line = ft_strjoin(line, buffer);
+		free(line);
+		if (!new_line)
+			return (NULL);
+		line = new_line;
+		if (ft_strchr(buffer, '\n'))
+			break ;
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+	}
+	if (bytes_read < 0)
+	{
+		free(line);
 		return (NULL);
 	}
-	line = ft_strjoin(stash, tmp);
-	free(tmp);
-	free(stash);
-	stash = line;
-	if (!stash || stash[0] == '\0')
-	{
-		free(stash);
-		stash = NULL;
-		return (NULL);
-	}
-	line = ft_extract(&stash);
 	return (line);
 }
 
@@ -68,6 +68,35 @@ char	*ft_extract(char **stash)
 	return (line);
 }
 
+char	*gnl(int fd)
+{
+	static char	*stash;
+	char		*line;
+	char		*tmp;
+
+	if (!stash)
+		stash = ft_strdup("");
+	tmp = ft_isnewline(fd);
+	if (!tmp)
+	{
+		free(stash);
+		stash = NULL;
+		return (NULL);
+	}
+	line = ft_strjoin(stash, tmp);
+	free(tmp);
+	free(stash);
+	stash = line;
+	if (!stash || stash[0] == '\0')
+	{
+		free(stash);
+		stash = NULL;
+		return (NULL);
+	}
+	line = ft_extract(&stash);
+	return (line);
+}
+
 char	*get_next_line(int fd)
 {
 	char	*line;
@@ -75,11 +104,6 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	line = gnl(fd);
-	if (!line || line[0] == '\0')
-	{
-		free(line);
-		return (NULL);
-	}
 	return (line);
 }
 

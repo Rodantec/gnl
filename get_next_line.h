@@ -6,7 +6,7 @@
 /*   By: rodantec <rodantec@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:42:08 by rodantec          #+#    #+#             */
-/*   Updated: 2024/11/21 10:26:43 by rodantec         ###   ########.fr       */
+/*   Updated: 2024/11/21 11:21:21 by rodantec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <unistd.h>
 
 //#define BUFFER_SIZE 10
-
+char	*ft_strchr(const char *s, int c);
 char	*ft_extract(char **stash);
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *str);

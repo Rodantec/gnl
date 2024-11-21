@@ -6,7 +6,7 @@
 /*   By: rodantec <rodantec@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:41:38 by rodantec          #+#    #+#             */
-/*   Updated: 2024/11/21 10:53:23 by rodantec         ###   ########.fr       */
+/*   Updated: 2024/11/21 11:23:25 by rodantec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,33 +84,4 @@ char	*ft_strdup(const char *s1)
 	}
 	dest[i] = '\0';
 	return (dest);
-}
-
-char	*ft_isnewline(int fd)
-{
-	int		bytes_read;
-	char	buffer[BUFFER_SIZE + 1];
-	char	*line;
-	char	*new_line;
-
-	bytes_read = read(fd, buffer, BUFFER_SIZE);
-	line = ft_strdup("");
-	while (bytes_read > 0)
-	{
-		buffer[bytes_read] = '\0';
-		new_line = ft_strjoin(line, buffer);
-		free(line);
-		if (!new_line)
-			return (NULL);
-		line = new_line;
-		if (ft_strchr(buffer, '\n'))
-			break ;
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-	}
-	if (bytes_read < 0)
-	{
-		free(line);
-		return (NULL);
-	}
-	return (line);
 }
