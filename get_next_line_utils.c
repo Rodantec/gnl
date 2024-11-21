@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ro <ro@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: rodantec <rodantec@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:41:38 by rodantec          #+#    #+#             */
-/*   Updated: 2024/11/19 18:51:53 by ro               ###   ########.fr       */
+/*   Updated: 2024/11/21 10:53:23 by rodantec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -29,6 +28,8 @@ size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 
+	if (!s)
+		return (0);
 	i = 0;
 	while (s[i])
 		i++;
@@ -68,8 +69,9 @@ char	*ft_strdup(const char *s1)
 	char	*dest;
 	int		i;
 	int		j;
-	if(!s1)
-		return NULL;
+
+	if (!s1)
+		return (NULL);
 	j = ft_strlen(s1);
 	i = 0;
 	dest = malloc(sizeof(*s1) * (j + 1));
@@ -84,32 +86,31 @@ char	*ft_strdup(const char *s1)
 	return (dest);
 }
 
-char *ft_isnewline(int fd)
+char	*ft_isnewline(int fd)
 {
-	int bytes_read;
-	char buffer[BUFFER_SIZE + 1];
-	char *line;
-	char *new_line;
-	
+	int		bytes_read;
+	char	buffer[BUFFER_SIZE + 1];
+	char	*line;
+	char	*new_line;
+
+	bytes_read = read(fd, buffer, BUFFER_SIZE);
 	line = ft_strdup("");
-	if(!line)
-		return NULL;
-	while ((bytes_read = read(fd,buffer,BUFFER_SIZE)) > 0)
-    {
+	while (bytes_read > 0)
+	{
 		buffer[bytes_read] = '\0';
 		new_line = ft_strjoin(line, buffer);
 		free(line);
-		if(!new_line)
-			return NULL;
+		if (!new_line)
+			return (NULL);
 		line = new_line;
-		if(ft_strchr(buffer, '\n'))
-			break;
+		if (ft_strchr(buffer, '\n'))
+			break ;
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
 	}
 	if (bytes_read < 0)
 	{
 		free(line);
-		return NULL;
+		return (NULL);
 	}
-	return(line);
+	return (line);
 }
-        
