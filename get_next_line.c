@@ -6,7 +6,7 @@
 /*   By: rodantec <rodantec@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:41:27 by rodantec          #+#    #+#             */
-/*   Updated: 2024/11/21 11:54:41 by rodantec         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:52:08 by rodantec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,13 @@
 char	*ft_isnewline(int fd)
 {
 	int		bytes_read;
-	char	buffer[BUFFER_SIZE + 1];
+	char	*buffer;
 	char	*line;
 	char	*new_line;
-
+	
+	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (!buffer)
+		return NULL;
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
 	line = ft_strdup("");
 	while (bytes_read > 0)
@@ -26,11 +29,18 @@ char	*ft_isnewline(int fd)
 		buffer[bytes_read] = '\0';
 		new_line = ft_strjoin(line, buffer);
 		free(line);
+		free(buffer);
 		if (!new_line)
+		{
+			free(line);
 			return (NULL);
+		}
 		line = new_line;
 		if (ft_strchr(buffer, '\n'))
 			break ;
+		buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
+		if(!buffer)
+			return NULL;
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 	}
 	if (bytes_read < 0)
@@ -101,49 +111,61 @@ char	*get_next_line(int fd)
 {
 	char	*line;
 
+
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	line = gnl(fd);
 	return (line);
 }
 
-// int main(void)
-// {
-//     int fd = open("test.txt", O_RDONLY);
-//     if (fd == -1)
-//     {
-//         perror("Failed to open file");
-//         return (1);
-//     }
+int main(void)
+{
+	char *line;
 
-//     char *line = get_next_line(fd);
-//      char *line2 = get_next_line(fd);
-//       char *line3 = get_next_line(fd);
-//       char *line4 = get_next_line(fd);
-//     char *line5 = get_next_line(fd);
-//      char *line6 = get_next_line(fd);
-//     //  char *line7 = get_next_line(fd);
-//     //   char *line8 = get_next_line(fd);
-//     //    char *line9 = get_next_line(fd);
-//     //     char *line10 = get_next_line(fd);
-//         printf( "%s", line);
-//         printf("%s", line2);
-//          printf("%s", line3);
-//         printf("%s", line4);
-//         printf(  "%s", line5);
-//          printf("%s", line6);
-//          free(line);
-//          free(line2);
-//          free(line3);
-//          free(line4);
-//          free(line5);
-//          free(line6);
-//         // printf("%s", line7);
-//         // printf("%s", line8);
-//         // printf("%s", line9);
-//         // printf("%s", line10);
+	
+    int fd = open("test.txt", O_RDONLY);
+    if (fd == -1)
+    {
+        perror("Failed to open file");
+        return (1);
+    }
 
-//          // N'oubliez pas de libérer la mémoire allouée pour la ligne
-//     close(fd);
-//     return (0);
-// }
+	line = get_next_line(fd);
+	while (line)
+	{
+		printf("%s", line);
+		free(line);
+		line = get_next_line(fd);
+	}
+	
+    // char *line = get_next_line(fd);
+    //  char *line2 = get_next_line(fd);
+    //   char *line3 = get_next_line(fd);
+    //   char *line4 = get_next_line(fd);
+    // char *line5 = get_next_line(fd);
+    //  char *line6 = get_next_line(fd);
+    // //  char *line7 = get_next_line(fd);
+    // //   char *line8 = get_next_line(fd);
+    // //    char *line9 = get_next_line(fd);
+    // //     char *line10 = get_next_line(fd);
+    //     printf( "%s", line);
+    //     printf("%s", line2);
+    //      printf("%s", line3);
+    //     printf("%s", line4);
+    //     printf(  "%s", line5);
+    //      printf("%s", line6);
+    //      free(line);
+    //      free(line2);
+    //      free(line3);
+    //      free(line4);
+    //      free(line5);
+    //      free(line6);
+        // printf("%s", line7);
+        // printf("%s", line8);
+        // printf("%s", line9);
+        // printf("%s", line10);
+
+         // N'oubliez pas de libérer la mémoire allouée pour la ligne
+    close(fd);
+    return (0);
+}
